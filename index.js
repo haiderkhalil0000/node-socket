@@ -2,13 +2,14 @@ const http = require("http");
 const express = require("express");
 const { Server } = require("socket.io");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const PORT = 5050;
-const JWT_SECRET = "Node socket app.";
+const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const parents = {};
 const guards = {};
