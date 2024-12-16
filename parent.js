@@ -10,9 +10,9 @@ socket.on("connect", () => {
   socket.emit("register_parent", parentId);
 
   const data = "Hello, Guard!";
-  socket.emit("picket_request_parent", { parentId, guardId, data });
+  socket.emit("picket_request_guard", { parentId, guardId, data });
 
-  socket.on("picket_response_parent", ({ parentId, guardId, response }) => {
+  socket.on("picket_request_parent", ({ parentId, guardId, response }) => {
     console.log(
       `Response from Guard (guardId: ${guardId}) for Parent (parentId: ${parentId}): ${response}`
     );

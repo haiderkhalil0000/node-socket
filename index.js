@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
     console.log(`Guard connected with guardId: ${guardId}`);
   });
 
-  socket.on("picket_request_parent", ({ parentId, guardId, data }) => {
+  socket.on("picket_request_guard", ({ parentId, guardId, data }) => {
     console.log(
       `Parent request received: parentId=${parentId}, guardId=${guardId}, Data=${data}`
     );
@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("picket_response_guard", ({ parentId, guardId, response }) => {
+  socket.on("picket_request_parent", ({ parentId, guardId, response }) => {
     console.log(
       `Guard response received: parentId=${parentId}, guardId=${guardId}, Response=${response}`
     );
@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
       console.log(
         `Sending response to Parent (parentId: ${parentId}) from Guard (guardId: ${guardId})`
       );
-      parentSocket.emit("picket_response_parent", {
+      parentSocket.emit("picket_request_parent", {
         parentId,
         guardId,
         response,

@@ -15,6 +15,6 @@ socket.on("connect", () => {
     console.log(
       `Sending response to Parent (parentId: ${parentId}): ${response}`
     );
-    socket.emit("picket_response_guard", { parentId, guardId, response });
+    socket.emit("picket_request_parent", { parentId, guardId, response });
   });
 });
