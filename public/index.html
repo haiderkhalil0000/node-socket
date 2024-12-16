@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket Chat</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div id="login">
+    <input type="text" id="username" placeholder="Enter username">
+    <button onclick="register()">Join</button>
+  </div>
+
+  <div id="chat" style="display:none;">
+    <div id="users"></div>
+    <div id="messages"></div>
+    <select id="recipient"></select>
+    <input type="text" id="message" placeholder="Type a message">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const socket = io();
+
+    function register() {
+      const username = document.getElementById('username').value;
+      socket.emit('register', username);
+    }
+
+    socket.on('registration_error', (error) => {
+      alert(error);
+    });
+
+    socket.on('user_list', (users) => {
+      const userList = document.getElementById('users');
+      const recipientSelect = document.getElementById('recipient');
+      
+      // Clear previous lists
+      userList.innerHTML = 'Online Users: ' + users.join(', ');
+      recipientSelect.innerHTML = '';
+      
+      // Populate recipient dropdown
+      users.forEach(user => {
+        const option = document.createElement('option');
+        option.value = user;
+        option.text = user;
+        recipientSelect.add(option);
+      });
+
+      // Show chat interface
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('chat').style.display = 'block';
+    });
+
+    function sendMessage() {
+      const recipient = document.getElementById('recipient').value;
+      const messageInput = document.getElementById('message');
+      const message = messageInput.value;
+
+      socket.emit('private_message', { 
+        to: recipient, 
+        message: message 
+      });
+
+      // Display message locally
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML += `<p>You to ${recipient}: ${message}</p>`;
+      
+      messageInput.value = '';
+    }
+
+    socket.on('private_message', (data) => {
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML += `<p>${data.from}: ${data.message}</p>`;
+    });
+  </script>
+</body>
+</html>
