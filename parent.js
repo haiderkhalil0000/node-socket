@@ -2,8 +2,6 @@ const io = require("socket.io-client");
 const socket = io("http://localhost:5050");
 
 socket.on("connect", () => {
-  console.log("Parent connected to server");
-
   const parentId = "parent_1";
   const guardId = "guard_1";
 

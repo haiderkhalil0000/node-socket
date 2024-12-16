@@ -2,8 +2,6 @@ const io = require("socket.io-client");
 const socket = io("http://localhost:5050");
 
 socket.on("connect", () => {
-  console.log("Guard connected to server");
-
   const guardId = "guard_1";
   socket.emit("register_guard", guardId);
 
