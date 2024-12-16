@@ -3,8 +3,10 @@ const io = require("socket.io-client");
 
 (async () => {
   try {
+    const parentId = "parent_1";
+    const guardId = "guard_1";
     const response = await axios.post("http://localhost:5050/generate-token", {
-      userId: "parent_1",
+      userId: parentId,
       role: "parent",
     });
 
@@ -15,9 +17,6 @@ const io = require("socket.io-client");
       },
     });
     socket.on("connect", () => {
-      const parentId = "parent_1";
-      const guardId = "guard_1";
-
       socket.emit("register_parent", parentId);
       const data = "Hello, Guard!";
       socket.emit("picket_request_guard", { parentId, guardId, data });
