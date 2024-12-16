@@ -9,10 +9,7 @@ socket.on("connect", () => {
     console.log(`Received data from Parent (parentId: ${parentId}): ${data}`);
 
     const response = typeof data === "string";
-
-    console.log(
-      `Sending response to Parent (parentId: ${parentId}): ${response}`
-    );
+    
     socket.emit("picket_request_parent", { parentId, guardId, response });
   });
 });
